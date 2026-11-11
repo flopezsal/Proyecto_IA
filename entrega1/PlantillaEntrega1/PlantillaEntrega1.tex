@@ -1,0 +1,338 @@
+\documentclass[letter, 10pt]{article}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage[dvips]{graphicx}
+\usepackage{url}
+\usepackage[top=3cm,bottom=3cm,left=3.5cm,right=3.5cm,footskip=1.5cm,headheight=1.5cm,headsep=.5cm,textheight=3cm]{geometry}
+
+
+
+\begin{document}
+\title{Inteligencia Artificial \\ \begin{Large}Estado del Arte: Problema Truck and Trailer Routing - TTRP\end{Large}}
+\author{Fernanda L\'opez Saldias}
+\date{\today}
+\maketitle
+
+
+%--------------------No borrar esta secci\'on--------------------------------%
+\section*{Evaluaci\'on}
+
+\begin{tabular}{ll}
+Resumen (5\%): & \underline{\hspace{2cm}} \\
+Introducci\'on (5\%):  & \underline{\hspace{2cm}} \\
+Definici\'on del Problema (10\%):  & \underline{\hspace{2cm}} \\
+Estado del Arte (40\%):  & \underline{\hspace{2cm}} \\
+Modelo Matem\'atico (20\%): &  \underline{\hspace{2cm}}\\
+Conclusiones (15\%): &  \underline{\hspace{2cm}}\\
+Bibliograf\'ia (5\%): & \underline{\hspace{2cm}}\\
+ &  \\
+\textbf{Nota Final (100\%)}:   & \underline{\hspace{2cm}}
+\end{tabular}
+%---------------------------------------------------------------------------%
+\vspace{2cm}
+
+
+\begin{abstract}
+El problema de enrutamiento de camiones y remolques (Truck and Trailer Routing Problem, TTRP) extiende al VRP cl\'asico al considerar restricciones de accesibilidad y capacidad mediante el uso de remolques desacopables.
+Este informe revisa el estado del arte de las metodolog\'ias desarrolladas para resolverlo, abarcando desde enfoques exactos hasta heur\'isticas y metaheur\'isticas.
+Adem\'as, se describe la estructura del problema, sus variantes m\'as comunes y su modelo matem\'atico. 
+Por \'ultimo, se examinan las limitaciones de las t\'ecnicas actuales y se identifican oportunidades para el dise\~no de futuros algoritmos de optimizaci\'on.
+\end{abstract}
+
+\newpage
+
+\section{Introducci\'on}
+
+El \textit{Vehicle Routing Problem} (VRP) fue introducido originalmente por Dantzig y Ramser en 1959. 
+En su versi\'on tradicional, el VRP busca determinar la mejor manera de asignar rutas a una flota de veh\'iculos para atender a un conjunto de clientes, minimizando los costos de transporte y cumpliendo con restricciones de capacidad y tiempo.
+El modelo cl\'asico asume dos simplificaciones: una flota homog\'enea y la posibilidad de que cualquier veh\'iculo pueda acceder a todos los clientes \cite{chao2002tabu, lin2009solving}.
+
+\vspace{0.25cm}
+
+En el \'area de log\'istica y en investigaci\'on de operaciones, el problema de enrutamiento de veh\'iculos (VRP) constituye una herramienta fundamental en la optimizaci\'on de cadenas de suministro. 
+Sin embargo, en escenarios reales, las suposiciones del modelo no son viables debido a las barreras f\'isicas y normativas del entorno vial.
+Para abordar estas limitaciones surge el Truck and Trailer Routing Problem (TTRP), una variante de complejidad NP-Hard que contempla el uso de veh\'iculos articulados compuestos por camiones y remolques desacopables.
+
+\vspace{0.25cm}
+
+La motivaci\'on principal al estudiar el TTRP radica en su alta aplicabilidad log\'istica en escenarios con restricciones de accesibilidad vial \cite{chao2002tabu, lin2009solving}. 
+En contextos como la distribuci\'on urbana en ciudades de alta densidad o la recolecci\'on en zonas rurales, la presencia de infraestructura estrecha o regulaciones de peso impide la circulaci\'on de veh\'iculos articulados completos \cite{lin2009solving}. 
+El TTRP permite modelar eficientemente estas limitaciones operativas a trav\'es del uso estrat\'egico de estacionamientos temporales para los remolques, optimizando el uso de la flota \cite{chao2002tabu, bartolini2020two}.
+
+\vspace{0.25cm} 
+
+El prop\'osito de este informe es presentar un estudio del estado del arte y de la caracterizaci\'on formal del TTRP. Se busca ordenar el conocimiento cient\'ifico desarrollado alrededor de este problema, identificando los principales enfoques utilizados para su resoluci\'on, as\'i como las representaciones de soluciones m\'as efectivas registradas. 
+Con ello, se pretende establecer un marco de an\'alisis s\'olido que sirva de fundamento para el desarrollo posterior de algoritmos de optimizaci\'on eficientes. 
+
+\vspace{0.25cm} 
+
+Para cumplir con este objetivo, el documento se estructura en las siguientes secciones: en primer lugar, se expone la Definici\'on del Problema, donde se detallan conceptualmente sus componentes, restricciones, dificultades combinatorias y variantes m\'as relevantes.
+A continuaci\'on, en la secci\'on de Estado del Arte, se realiza un an\'alisis comparativo y cronol\'ogico de las metodolog\'ias de resoluci\'on propuestas por diversos autores.
+Posteriormente, en el Modelo Matem\'atico, se formaliza el problema mediante una formulaci\'on de programaci\'on entera.
+Por \'ultimo, la secci\'on de Conclusiones resume los hallazgos principales, analiza las limitaciones de los m\'etodos actuales y propone l\'ineas de investigaci\'on para futuros trabajos.
+
+\section{Definici\'on del Problema}
+
+El \textit{Truck and Trailer Routing Problem} (TTRP) es un problema de optimizaci\'on combinatoria de clase NP-d\'ificil que extiende la formulaci\'on cl\'asica del problema de enrutamiento de veh\'iculos con capacidad (\textit{Capacitated Vehicle Routing Problem}, CVRP) \cite{chao2002tabu, lin2009solving}. 
+El problema consiste en atender las demandas de un conjunto de clientes a partir de las existencias disponibles en un dep\'osito central, disponiendo para ello de una flota limitada compuesta por camiones y remolques (unidades de carga adicionales) \cite{bartolini2020two,chao2002tabu}.
+En general, el objetivo principal del problema de TTRP es determinar el conjunto de rutas v\'alidas que satisfagan en su totalidad las demandas, minimizando la distancia total recorrida por la flota \cite{chao2002tabu,perez2023radial}.
+
+
+\vspace{0.25cm}
+
+El TTRP cuenta con restricciones de accesibilidad derivadas de la infraestructura vial o espacial de las zonas de entrega. Esto da lugar a dos tipos de clientes \cite{chao2002tabu}:
+\begin{itemize}
+    \item \textbf{Clientes de tipo cami\'on (\textit{Truck Customers}, TC):} Ubicados en zonas con limitaciones de espacio, giros reducidos o regulaciones de peso. Pueden ser atendidos solo por un cami\'on (sin remolque enganchado) \cite{lin2009solving}.
+    \item \textbf{Clientes de tipo veh\'iculo (\textit{Vehicle Customers}, VC):} Ubicados en zonas sin restricciones de acceso. Pueden ser atendidos por un cami\'on solo o por el veh\'iculo completo (cami\'on con remolque enganchado) \cite{chao2002tabu,lin2009solving}.
+\end{itemize}
+
+Para satisfacer las demandas de los clientes respetando las restricciones de acceso, la soluci\'on estructura tres tipos de ruta \cite{chao2002tabu,lin2009solving}:
+\begin{itemize}
+    \item \textbf{Rutas de cami\'on puro (\textit{Pure Truck Route}, PTR):} Recorridos realizados por un solo cami\'on desde el dep\'osito, con una capacidad m\'axima disponible igual a la del cami\'on ($Q_k$).
+    \item \textbf{Rutas de veh\'iculo puro (\textit{Pure Vehicle Route}, PVR):} Recorridos hechos por el veh\'iculo completo enganchado durante todo el trayecto, visitando de forma exclusiva a clientes de tipo VC, con una capacidad total de $Q_k + Q_r$.
+    \item \textbf{Rutas completas de veh\'iculo (\textit{Complete Vehicle Route}, CVR):} Rutas mixtas donde el veh\'iculo completo realiza un recorrido principal y, al requerir atender a clientes de tipo TC o clientes VC distantes, estaciona el remolque en un nodo habilitado denominado estacionamiento o root. El cami\'on solo realiza un sub-recorrido de reparto, retorna al mismo nodo root para reenganchar el remolque y contin\'ua la ruta principal. Adem\'as, el nodo root debe corresponder obligatoriamente a un cliente de tipo VC o al dep\'osito central.
+\end{itemize}
+
+La alta dificultad combinatoria del TTRP radica en que no solo se exige secuenciar el orden de visita a los clientes, sino que tambi\'en se requiere tomar decisiones simult\'aneas sobre la asignaci\'on del tipo de servicio para los clientes VC, la elecci\'on \'optima de los nodos root para desacoplar los remolques y la estructuraci\'on de los sub-recorridos \cite{bartolini2020two,lin2009solving}.
+Asimismo, se permite la transferencia interna de carga entre el remolque y el cami\'on en las ubicaciones pivote a medida que se efect\'uan los sub-recorridos, optimizando de esta forma el aprovechamiento de la capacidad total de la flota \cite{bartolini2020two}. 
+
+\vspace{0.25cm}
+
+En t\'erminos generales, las variables de decisi\'on cualitativas del problema comprenden el n\'umero de rutas a activar, la asignaci\'on del tipo de servicio para los clientes VC, la selecci\'on de las ubicaciones pivote para el desenganche y la secuencia de visitas en cada recorrido \cite{bartolini2020two,lin2009solving}. 
+
+\vspace{0.25cm}
+
+El funcionamiento del sistema est\'a sujeto a un conjunto de restricciones fundamentales \cite{bartolini2020two,chao2002tabu}:
+\begin{itemize}
+    \item Toda ruta debe comenzar y concluir en el dep\'osito central \cite{chao2002tabu}.
+    \item Cada cliente debe ser visitado exactamente una vez por un \'unico veh\'iculo, satisfaciendo su demanda sin dividirse \cite{lin2009solving}.
+    \item La carga total transportada en cualquier tramo no puede superar la capacidad m\'axima de la configuraci\'on empleada ($Q_k$ o $Q_k + Q_r$) \cite{chao2002tabu}.
+    \item El n\'umero de camiones y remolques utilizados no puede exceder el tama\~no de la flota disponible ($m_k$ y $m_r$) \cite{lin2009solving}.
+    \item Todo sub-recorrido iniciado tras desenganchar un remolque debe concluir obligatoriamente en el mismo nodo root de origen \cite{bartolini2020two,lin2009solving}.
+\end{itemize}
+
+
+\subsection{Problemas Relacionados y Variantes Conocidas}
+El TTRP mantiene un v\'inculo directo con otras formulaciones de la literatura de investigaci\'on de operaciones \cite{bartolini2020two,chao2002tabu}:
+\begin{itemize}
+    \item \textbf{Problemas Relacionados:} Se vincula con el VRP con Dependencia de Sitio (\textit{Site-Dependent VRP}, SDVRP), en el cual existen incompatibilidades entre ciertos clientes y tipos de veh\'iculos \cite{chao2002tabu}; con el VRP de Flota Heterog\'enea (HVRP); y con los problemas de enrutamiento en dos escalones con dep\'ositos sat\'elite (\textit{Two-Echelon VRP} o STTRPSD), donde los puntos de estacionamiento act\'uan como nodos de transbordo fijos \cite{bartolini2020two}.
+    \item \textbf{Variantes Conocidas:} Las extensiones m\'as relevantes del TTRP incluyen la variante con Ventanas de Tiempo (\textit{TTRP with Time Windows}, TTRPTW), que impone intervalos horarios estrictos de entrega \cite{parragh2012hybrid}; el TTRP Multi-Dep\'osito (MDTTRP), que considera m\'ultiples centros log\'isticos \cite{scheuerer2006tabu}; y el TTRP Peri\'odico (PTTRP), que planifica operaciones a lo largo de un horizonte multid\'ia \cite{derigs2013model}.
+\end{itemize}
+
+
+\section{Estado del Arte}
+
+
+\subsection{Origen Hist\'orico e Instancias Benchmark}
+El estudio del \textit{Truck and Trailer Routing Problem} (TTRP) fue introducido formalmente por I-Ming Chao \cite{chao2002tabu} como una generalizaci\'on directa del problema de enrutamiento de veh\'iculos con capacidad. 
+Chao identific\'o que los modelos de VRP tradicionales asum\'ian que todos los clientes pod\'ian ser accedidos por cualquier veh\'iculo de la flota, lo que resultaba inviable en sistemas de distribuci\'on con restricciones, como el reparto de bienes en \'area urbanas o la recolecci\'on en zonas rurales \cite{chao2002tabu}.
+Para abordar esta limitaci\'on , Chao formaliz\'o la clasificaci\'on binaria de clientes en clientes de tipo de cami\'on (\textit{Truck Customers}, TC) y clientes de tipo de veh\'iculo (\textit{Vehicle Customers}, VC), defini\'o las tres modalidades de rutas (PTR, PVR y CVR) y desarroll\'o la primera metaheur\'istica basada en B\'usqueda Tab\'u (\textit{Tabu Search}, TS) para resolver el problema.
+De igual manera, construy\'o un conjunto de 21 instancias de prueba \textit{benchmark instances} derivadas de las instancias cl\'asicas del VRP de Christofides et al., las cuales se convirtieron en la referencia est\'andar para comparar la eficiencia de los algoritmos en la literatura posterior \cite{chao2002tabu, lin2009solving}.
+
+
+\subsection{Evoluci\'on de los Enfoques de Resoluci\'on}
+
+En las \'ultimas dos d\'ecadas, las metodolog\'ias para abordar el TTRP se han dividido en tres grandes categor\'ias \cite{lin2009solving, bartolini2020two}:
+
+\subsubsection{M\'etodos Exactos}
+
+Debido a que el TTRP es un problema NP-dif\'icil, los enfoques basados en Programaci\'on Lineal Mixta (MILP) han presentado limitaciones para resolver instancias a gran escala \cite{bartolini2020two}. 
+En un principio, los modelos exactos depend\'ian de formulaciones con un alto n\'umero de variables binarias para rastrear la posici\'on del remolque y los sub-recorridos \cite{chao2002tabu}.
+
+\vspace{0.3cm}
+
+Un avance significativo fue presentado por Bartolini y Schneider \cite{bartolini2020two}, quienes formularon un modelo compacto basado en un flujo de dos mercanc\'ias (\textit{two-commodity flow formulation}).
+Este enfoque redujo la cantidad de variables y restricciones necesarias para garantizar la conexi\'on y evitar sub-cliclos, permitiendo resolver instancias de tama\~no peque\~no a mediano de forma \'optima mediante algoritmos de Ramificaci\'on y Corte (\textit{Branch-and-Cut}) \cite{bartolini2020two}.
+
+
+\subsubsection{Heur\'isticas y Metaheur\'isticas Cl\'asicas}
+Debido a la ineficiencia de los m\'etodos exactos frente a escenarios reales, la investigaci\'on se orient\'o tempranamente hacia las metaheur\'isticas \cite{chao2002tabu,derigs2013model}. 
+Tras el trabajo inicial de B\'usqueda Tab\'u de I-Ming Chao, Scheuerer \cite{scheuerer2006tabu} present\'o el m\'etodo TTRP-TS, integrando heur\'isticas de construcci\'on por inserci\'on con mejora local para potenciar la calidad de las soluciones.
+
+\vspace{0.3cm}
+
+Posteriormente, Lin et al. \cite{lin2009solving} abordaron el problema usando Recocido Simulado (\textit{Simulated Annealing}), superando cualitativamente los resultados anteriores.
+Su aporte principal reside en la incorporaci\'on de mecanismos de enfriamiento adaptativo y movimientos de vecindario orientados a flexibilizar la atenci\'on de clientes de tipo VC, reduciendo los costos globales de transporte.
+De la misma manera, Derigs et al. exploraron un marco de b\'usqueda local m\'as estructurado, ratificando la necesidad de alternar movimientos dentro de una misma ruta con intercambios entre distintas rutas para evitar el estancamiento en m\'inimos locales.
+
+\subsubsection{Enfoques Evolutivos e Inteligencia Artificial}
+
+En la \'ultima d\'ecada, las tendencias metodol\'ogicas para resolver el TTRP se han orientado hacia los algoritmos evolutivos e Inteligencia Artificial \cite{perez2023radial}. 
+Parragh y Cordeau desarrollaron un esquema basado en la B\'usqueda de Vecindario Grande Adaptativa (ALNS), el cual aplica operadores de destrucci\'on y reconstrucci\'on parcial de rutas para explorar el espacio de soluciones de manera eficaz.
+
+\vspace{0.3cm}
+
+Por su parte, P\'erez Rodriguez y Frausto Hern\'andez \cite{perez2023radial} introdujeron el algoritmo RHEDA-TTRP (\textit{Radial Hybrid Estimation of Distribution Algorithm}), un enfoque evolutivo de estimaci\'on de distribuciones que incorpora modelo de probabilidad basados en las funciones de onda radiales del \'atomo de hidr\'ogeno \cite{perez2023radial}.
+Esta t\'ecnica utiliza codificaciones continuas para representar las distancias entre nodos y optimizar la asignaci\'on de los estacionamientos en rutas CVR, demostrando superar cuantitativamente a los m\'etodos metaheur\'isticos tradicionales de Recocido Simulado y B\'usqueda Tab\'u \cite{perez2023radial}.
+
+\subsection{Representaci\'on de Soluciones en Memoria}
+Uno de los factores que resulta determinante en el rendimiento computacional de las metaheur\'isticas para el TTRP es la estructura utilizada para codificar las soluciones en la memoria del computador \cite{lin2009solving}.
+A diferencia el VRP cl\'asico, donde una soluci\'on se representa mediante una permutaci\'on simple de nodos, en el TTRP la representaci\'on debe hacer explicito el tipo de servicio asignado a los clientes VC y la presencia de sub-recorridos desenganchados \cite{chao2002tabu,lin2009solving}.
+
+\vspace{0.3cm}
+
+Popularizado por Lin et al., el esquema de representaci\'on est\'a compuesto por dos vectores entrelazados \cite{lin2009solving}:
+\begin{itemize}
+    \item \textbf{Vector de Secuencia de Visita:} Una permutaci\'on ordenada que determina la secuencia global en la que se atienden los clientes en el sistema \cite{lin2009solving}.
+    \item \textbf{Vector de Tipo de Servicio (\textit{Service Type Vector}):} Un vector binario que asigna a cada cliente de tipo VC un valor ($0$ o $1$), indicando si en la soluci\'on actual ser\'a atendido por el veh\'iculo completo en la ruta principal o por el cami\'on solo \cite{lin2009solving}.
+\end{itemize}
+
+Adem\'as, los algoritmos implementan procedimientos de refinamiento de nodos pivote, los cuales eval\'uan din\'amicamente cual de los nodos VC visitados minimiza la distancia total al desacoplar el remolque \cite{lin2009solving}.
+
+\subsection{An\'alisis Comparativo y Tendencias Actuales}
+
+Al realizar un an\'alisis que compara el desempe\~no de las metodolog\'ias sobre las 21 instancias bench-mark de I-Ming Chao, se observa una evoluci\'on cualitativa clara.
+Mientras que los algoritmos iniciales de B\'usqueda Tab\'u establecieron los primeros valores de referencia, las t\'ecnicas basadas en Recocido Simulado y los modelos de probabilidad evolutivos (RHEDA) lograron reducir el error medio absoluto hasta un 48\% respecto a las distancias recorridas \cite{perez2023radial}.
+
+\vspace{0.3cm}
+
+En la actualidad, las fronteras de investigaci\'on en el TTRP se concentran en las siguientes l\'ineas:
+\begin{itemize}
+    \item \textbf{Hibridaci\'on de Metaheur\'isticas:} Integraci\'on de m\'etodos de b\'usqueda local con modelos probabil\'isticos (como EDA) o algoritmos basados en destrucci\'on y reconstrucci\'on de vecindarios (ALNS) \cite{parragh2012hybrid, perez2023radial}.
+    \item \textbf{Matheur\'isticas:} Corresponde a la combinaci\'on de formulaciones de flujo exactas (como la de Bartolini y Schneider) con algoritmos heur\'isticos para resolver sub-problemas de asignaci\'on de roots o ruteo en instancias de gran escala \cite{bartolini2020two}.
+    \item \textbf{Incorporaci\'on de Restricciones Din\'amicas y Ambientales:} Formulaci\'on de variantes del TTRP con ventanas de tiempo (\textit{TTRPTW}), consideraci\'on de m\'ultiples dep\'ositos (\textit{MDTTRP}) y modelos para la reducci\'on de emisiones de carbono en transporte terrestre \cite{perez2023radial}.
+\end{itemize}
+
+
+\section{Modelo Matem\'atico}
+
+En esta secci\'on se formaliza el \textit{Truck and Trailer Routing Problem} (TTRP) mediante un modelo de Programaci\'on Lineal Entera Mixta (MILP). 
+Se utiliza la formulaci\'on compacta de flujo de dos mercanc\'ias (\textit{Two-Commodity Flow Formulation}) propuesta por Bartolini y Schneider. 
+Este enfoque se destaca por reducir significativamente el n\'umero de variables binarias al modelar en paralelo el transporte de carga y el espacio vac\'io del veh\'iculo mediante flujos continuos, evitando la simetr\'ia de etiquetar veh\'iculos individuales \cite{bartolini2020two}.
+
+\subsection{Conjuntos e \'Indices}
+\begin{itemize}
+    \item $0$: Nodo que representa el dep\'osito central de origen \cite{bartolini2020two}.
+    \item $0'$: Nodo copia que representa el punto de llegada final de las rutas \cite{bartolini2020two}.
+    \item $V^c$: Conjunto de clientes de tipo veh\'iculo (\textit{Vehicle Customers}, VC) \cite{bartolini2020two}.
+    \item $V^t$: Conjunto de clientes de tipo cami\'on (\textit{Truck Customers}, TC) \cite{bartolini2020two}.
+    \item $V = V^c \cup V^t$: Conjunto total de clientes ($n = |V|$) \cite{bartolini2020two}.
+    \item $V_0 = V \cup \{0\}$: Conjunto de nodos incluyendo el dep\'osito inicial \cite{bartolini2020two}.
+    \item $\mathcal{E}_c$: Conjunto de aristas accesibles por veh\'iculos completos (cami\'on con remolque) \cite{bartolini2020two}.
+    \item $\mathcal{E}$: Conjunto total de aristas del grafo extendido \cite{bartolini2020two}.
+\end{itemize}
+
+\subsection{Par\'ametros del Sistema}
+\begin{itemize}
+    \item $q_i$: Demanda de carga del cliente $i \in V$, donde $q_0 = 0$ \cite{bartolini2020two}.
+    \item $Q_t$: Capacidad m\'axima de carga de la unidad tractora (cami\'on solo) \cite{bartolini2020two}.
+    \item $Q_c$: Capacidad m\'axima de carga del remolque \cite{bartolini2020two}.
+    \item $m_t$: Cantidad m\'axima de camiones disponibles en la flota \cite{bartolini2020two}.
+    \item $m_c$: Cantidad m\'axima de remolques disponibles en la flota ($m_c \le m_t$) \cite{bartolini2020two}.
+    \item $c_{ij}$: Costo de transporte o distancia asociada a recorrer la arista $\{i,j\}$ \cite{bartolini2020two}.
+\end{itemize}
+
+\subsection{Variables de Decisi\'on}
+\begin{itemize}
+    \item $x_{ij} \in \{0, 1\}$: Variable binaria que toma el valor $1$ si un veh\'iculo completo transita por la arista $\{i,j\} \in \mathcal{E}_c$, y $0$ en caso contrario \cite{bartolini2020two}.
+    \item $z_{ij} \in \{0, 1\}$: Variable binaria que toma el valor $1$ si un cami\'on solo recorre la arista $\{i,j\} \in \mathcal{E}$, y $0$ en caso contrario \cite{bartolini2020two}.
+    \item $f_{ij}, f_{ji} \ge 0$: Variables continuas que representan el flujo de carga ($f_{ij}$) y el espacio vac\'io ($f_{ji}$) en rutas de veh\'iculo completo \cite{bartolini2020two}.
+    \item $g_{ij}, g_{ji} \ge 0$: Variables continuas que representan el flujo de carga ($g_{ij}$) y el espacio vac\'io ($g_{ji}$) en sub-tours de cami\'on solo \cite{bartolini2020two}.
+    \item $h_i \ge 0$: Variable entera que contabiliza el n\'umero de sub-tours desenganchados en el nodo estacionamiento $i \in V^c$ \cite{bartolini2020two}.
+\end{itemize}
+
+\subsection{Formulaci\'on del Modelo Matem\'atico}
+
+\textbf{Funci\'on Objetivo:} Minimizar el costo total de desplazamiento de la flota combinando las rutas de veh\'iculo completo y los sub-recorridos de cami\'on solo \cite{bartolini2020two}:
+\begin{equation}
+\min \sum_{\{i,j\} \in \mathcal{E}_c} c_{ij} x_{ij} + \sum_{\{i,j\} \in \mathcal{E}} c_{ij} z_{ij} \label{eq:obj_main}
+\end{equation}
+
+\textbf{Sujeto a las siguientes restricciones:}
+
+\textit{1. Balance de Conservaci\'on de Carga y Demanda:}
+\begin{align}
+& \sum_{\{i,j\} \in \delta(i) \cap \mathcal{E}_c} (f_{ji} - f_{ij}) + \sum_{\{i,j\} \in \delta(i)} (g_{ji} - g_{ij}) = 2 q_i + Q_t h_i, && \forall i \in V^c \label{eq:m1_flow_vc} \\
+& \sum_{\{i,j\} \in \delta(i)} (g_{ji} - g_{ij}) = 2 q_i, && \forall i \in V^t \label{eq:m1_flow_vt} \\
+& \sum_{j \in V^c} f_{0j} + \sum_{j \in V} g_{0j} = \sum_{i \in V} q_i && \label{eq:m1_depot}
+\end{align}
+
+\textit{2. Acoplamiento de Capacidad y Variables de Trayecto:}
+\begin{align}
+& f_{ij} + f_{ji} = (Q_t + Q_c) x_{ij}, && \forall \{i,j\} \in \mathcal{E}_c \setminus \{0, 0'\} \label{eq:m1_cap_f} \\
+& g_{ij} + g_{ji} = Q_t z_{ij}, && \forall \{i,j\} \in \mathcal{E} \setminus \{0, 0'\} \label{eq:m1_cap_g}
+\end{align}
+
+\textit{3. L\'imite de Flota y Grados de Entrada/Salida:}
+\begin{align}
+& \sum_{\{i,j\} \in \delta(i) \cap \mathcal{E}_c} x_{ij} + \sum_{\{i,j\} \in \delta(i)} z_{ij} = 2 + h_i, && \forall i \in V^c \label{eq:m1_deg_vc} \\
+& \sum_{\{i,j\} \in \delta(i)} z_{ij} = 2, && \forall i \in V^t \label{eq:m1_deg_vt} \\
+& \sum_{j \in V^c} x_{0j} + h_0 \le m_t, \quad \sum_{j \in V^c} x_{0j} \le m_c && \label{eq:m1_fleet}
+\end{align}
+
+\textit{4. Dominios de las Variables:}
+\begin{equation}
+x_{ij} \in \{0, 1\}, \quad z_{ij} \in \{0, 1\}, \quad h_i \in \mathbb{Z}^+, \quad f_{ij}, g_{ij} \ge 0 \label{eq:m1_dom}
+\end{equation}
+
+\subsection{Explicaci\'on Intuitiva de las Ecuaciones}
+\begin{itemize}
+    \item \textbf{Ecuaci\'on \eqref{eq:obj_main}:} Suma las distancias recorridas por camiones con remolque ($x_{ij}$) y por camiones solos ($z_{ij}$) \cite{bartolini2020two}.
+    \item \textbf{Ecuaciones \eqref{eq:m1_flow_vc}--\eqref{eq:m1_depot}:} Garantizan que cada cliente reciba exactamente la cantidad de producto que solicita ($q_i$) y que la carga total que sale del dep\'osito coincida con la suma de las demandas \cite{bartolini2020two}.
+    \item \textbf{Ecuaciones \eqref{eq:m1_cap_f}--\eqref{eq:m1_cap_g}:} Aseguran que no se supere la capacidad m\'axima del veh\'iculo completo ($Q_t + Q_c$) ni la del cami\'on solo ($Q_t$) en ning\'un tramo \cite{bartolini2020two}.
+    \item \textbf{Ecuaciones \eqref{eq:m1_deg_vc}--\eqref{eq:m1_fleet}:} Obligan a que todo cliente sea atendido (grado de entrada y salida equilibrado) y restringen la salida de camiones y remolques del dep\'osito a la disponibilidad de la flota ($m_t$ y $m_c$) \cite{bartolini2020two}.
+\end{itemize}
+
+\subsection{Discusi\'on sobre Formulaciones Alternativas}
+A diferencia de la formulaci\'on compacta presentada, los modelos tradicionales de tres \'indices (derivados del trabajo de Chao \cite{chao2002tabu}) emplean variables binarias con sub-\'indices expl\'icitos para cada veh\'iculo $k$ ($x_{ijk}$). Si bien dichos modelos resultan conceptualmente intuitivos, generan una elevada simetr\'ia en el \'arbol de ramificaci\'on y requieren un n\'umero sustancialmente mayor de variables binarias ($\mathcal{O}(|V|^2 \cdot m_t)$), lo que dificulta la obtenci\'on de soluciones \'optimas en tiempos razonables \cite{chao2002tabu, bartolini2020two}. La formulaci\'on de flujo de dos mercanc\'ias resuelve este inconveniente al tratar la flota de forma agregada, siendo la alternativa m\'as eficiente en la literatura actual \cite{bartolini2020two}.
+
+
+
+\section{Conclusiones}
+
+El estudio del \textit{Truck and Trailer Routing Problem} (TTRP) deja en evidencia una evoluci\'on clara de la metodolog\'ia motivada por la necesidad de resolver problemas log\'isticos reales donde la accesibilidad de la flota se encuentra restringida. 
+A trav\'es de la revisi\'on realizada, se confirma que mientras las formulaciones exactas cl\'asicas sufren de una alta explosi\'on combinatoria y simetr\'ia, los modelos recientes como la formulaci\'on de flujo de dos mercanc\'ias de Bartolini y Schneider han logrado reducir significativamente el espacio de b\'usqueda, permitiendo obtener \'optimos te\'oricos en instancias de peque\~na y mediana escala.
+
+\vspace{0.25cm}
+
+Respecto a las t\'ecnicas aproximadas, se observa una transici\'on desde las metaheur\'isticas de trayectoria individual (como la B\'usqueda Tab\'u pionera de Chao) hacia esquemas con capacidades adaptativas y probabil\'isticas. 
+Estrategias como el Recocido Simulado con enfriamiento adaptativo y el algoritmo evolutivo RHEDA han demostrado ser las m\'as prometedoras, logrando reducciones significativas en la distancia recorrida mediante el refinamiento eficiente de los nodos pivote y la flexibilidad del tipo de servicio para los clientes VC.
+
+\vspace{0.25cm}
+
+La principal limitaci\'on de los enfoques actuales radica en su alta dependencia de la sintonizaci\'on de par\'ametros y en la dificultad de escalar eficientemente hacia escenarios din\'amicos o con m\'ultiples objetivos. Como l\'ineas de investigaci\'on futura, se propone el desarrollo de algoritmos matheur\'isticos que integren el rigor de los modelos de flujo compactos con operadores de b\'usqueda de vecindario adaptativos (ALNS), as\'i como la incorporaci\'on expl\'icita de incertidumbre en las demandas y la optimizaci\'on del consumo energ\'etico en flotas el\'ectricas o h\'ibridas.
+
+
+\section{Uso de LLMs}
+
+En el desarrollo de este informe se utilizaron herramientas de Inteligencia Artificial como apoyo metodol\'ogico, sus especificaciones y nivel de intervenci\'on se presentan a continuaci\'on:
+
+\begin{enumerate}
+    \item \textbf{Herramientas utilizadas:} 
+    \begin{itemize}
+        \item \textbf{Gemini (Versi\'on Gratuita):} Fue principalmente utilizada para la estructuraci\'on del informe, revisi\'on del modelo matem\'atico y organizaci\'on de la bibliograf\'ia.
+        \item \textbf{Microsoft Copilot:} Fue utilizado como apoyo para la autocorrecci\'on ortogr\'afica y sintaxis LaTeX.
+    \end{itemize}
+
+    \item \textbf{Prop\'osito de uso:} 
+    \begin{itemize}
+        \item Estructurar las secciones del informe acorde a la pauta del curso.
+        \item Revisar la coherencia conceptual del modelo matem\'atico MILP y de los esquemas de memoria para el TTRP.
+        \item Corregir la sintaxis de las referencias en formato BibTeX (.bib) e integrar las citas faltantes.
+        \item Realizar autocorrecci\'on ortogr\'afica y refinamiento de estilo en el texto en LaTeX.
+    \end{itemize}
+
+    \item \textbf{Prompts relevantes:} 
+    \begin{itemize}
+        \item \textquestiondown{}C\'omo estructurar la secci\'on de Modelo Matem\'atico del TTRP para presentar la formulaci\'on compacta de flujo de dos mercanc\'ias de forma clara?
+        \item Revisa esta sintaxis de entradas BibTeX para verificar que las citas no generen errores de compilaci\'on.
+        \item Identifica inconsistencias, repeticiones de ideas o errores de tipeo en las secciones de Introducci\'on y Definici\'on del Problema.
+    \end{itemize}
+
+    \item \textbf{Nivel de edici\'on:} 
+    \begin{itemize}
+        \item El material generado fue reescrito y adaptado de manera coherente con el resto del informe. Tambi\'en se ajust\'o el tono para asegurar una correcta redacci\'on acad\'emica.
+    \end{itemize}
+
+    \item \textbf{Validaci\'on:} 
+    \begin{itemize}
+        \item Todos los conceptos te\'oricos, variables, ecuaciones y referencias citadas fueron contrastados y validados directamente con la literatura cient\'ifica de origen (art\'iculos de I-Ming Chao, Su-Wi Lin, Eduardo Bartolini y Ricardo P\'erez-Rodr\'iguez), as\'i como con la pauta de evaluaci\'on de la asignatura.
+    \end{itemize}
+\end{enumerate}
+
+\bibliographystyle{plain}
+\bibliography{Referencias}
+
+\end{document}

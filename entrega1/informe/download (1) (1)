@@ -1,0 +1,12 @@
+% Contexto, motivación y objetivos del trabajo.
+Describa el problema y el objetivo del informe.
+
+\subsection{Objetivos}
+\begin{itemize}
+  \item Objetivo 1.
+  \item Objetivo 2.
+\end{itemize}
+
+\subsection{Marco teórico}
+% Complejidad teórica de los algoritmos, citas con \cite{clave}.
+Describa brevemente los algoritmos y su complejidad esperada, por ejemplo $\bigO{n \log n}$~\cite{taocv3}.

@@ -1,0 +1,65 @@
+%!TEX root = report.tex
+\documentclass[11pt,spanish]{article}
+
+\input{preamble.tex}
+\input{author.tex}
+
+\headheight=14pt
+\linespread{1.3}
+\author{\namestudent}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[R]{\namestudent \\ \rolusm}
+\fancyfoot[L]{Campus \campus}
+\fancyfoot[C]{\thepage}
+\rhead{\sem}
+\lhead{INF-295}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\chead{ENTREGA \tnum~- PROYECTO IA}
+
+\title{
+  \huge
+  \textbf{ENTREGA \tnum~: ESTADO DEL ARTE Y MODELO MATEMÁTICO} \\[1ex]
+  \Large \textbf{Truck and Trailer Routing Problem (TTRP)} \\[1ex]
+  \large \emph{Inteligencia Artificial --- INF-295}
+}
+
+\date{
+  \small
+  \today
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{fancy}
+\vspace{-1.0\baselineskip}
+
+% --- 1. Resumen ---
+\input{sections/00_resumen}
+
+% --- 2. Introducción ---
+\section{Introducción}
+\input{sections/01_introduccion}
+
+% --- 3. Definición del Problema ---
+\section{Definición del Problema}
+\input{sections/02_definicion_problema}
+
+% --- 4. Estado del Arte ---
+\section{Estado del Arte}
+\input{sections/03_estado_del_arte}
+
+% --- 5. Modelo Matemático ---
+\section{Modelo Matemático}
+\input{sections/04_modelo_matematico}
+
+% --- 6. Conclusiones ---
+\section{Conclusiones}
+\input{sections/05_conclusiones}
+
+% --- 7. Referencias Bibliográficas ---
+\printbibliography[title={Referencias Bibliográficas}]
+
+\end{document}

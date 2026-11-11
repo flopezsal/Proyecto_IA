@@ -1,0 +1,41 @@
+# Plantilla de informe LaTeX — Algoritmos y Complejidad
+
+## Estructura
+
+```
+.
+├── report.tex          # documento principal (portada, encabezados, orden de secciones)
+├── author.tex          # ← EDITE AQUÍ: nombre, rol, semestre, campus, título
+├── preamble.tex        # paquetes y configuración
+├── references.bib      # bibliografía (agregue sus referencias)
+├── figures/            # imágenes/gráficos (se referencian solo por nombre de archivo)
+├── sections/
+│   ├── abstract.tex
+│   ├── introduction.tex
+│   ├── experiment_intro.tex
+│   ├── experiment_results.tex
+│   ├── conclusions.tex
+│   ├── implementations.tex
+│   └── appendix1.tex
+├── .latexmkrc
+└── .vscode/            # configuración para LaTeX Workshop
+```
+
+## Uso en VS Code
+
+1. Instale una distribución LaTeX (TeX Live / MiKTeX) y la extensión **LaTeX Workshop**.
+2. Abra la carpeta en VS Code y abra `report.tex`.
+3. Guarde (`Ctrl+S`) para compilar; el PDF queda en `build/report.pdf`.
+
+## Compilar por terminal
+
+```bash
+latexmk -pdf report.tex      # compila (pdflatex + biber)
+latexmk -c                   # limpia auxiliares
+```
+
+## Notas
+
+- Requiere `biber` (viene con TeX Live; en Ubuntu: `sudo apt install texlive-bibtex-extra biber`).
+- Para quitar una sección, comente su `\section` e `\input` en `report.tex`.
+- Para dejar de usar el resumen, comente el bloque `abstract` en `report.tex`.

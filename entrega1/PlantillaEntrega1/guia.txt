@@ -1,0 +1,9 @@
+1. ¿Qué es y qué DEBE ir en el Estado del Arte?El Estado del Arte no es una simple lista o resumen de papers uno tras otro. 
+
+La rúbrica evalúa que sea una narrativa crítica, cronológica y comparativa que responda a 5 pilares fundamentales:   
+
+Origen Histórico: Responder cuándo y en qué contexto surge el TTRP (el trabajo inicial de Chao en 2002).   
+Métodos y Enfoques de Resolución: Qué algoritmos ha usado la comunidad científica para resolverlo (divididos en tres grandes grupos: métodos exactos, heurísticos/metaheurísticos clásicos y métodos híbridos/recientes).   
+Representaciones de Soluciones: Cómo los algoritmos codifican una solución en memoria (listas de nodos, variables binarias de tipo de servicio, estructuras de sub-tours).   
+Síntesis de Resultados y Algoritmos Eficaces: Cuáles son las técnicas que obtienen los mejores resultados y menores costos en las instancias de prueba (benchmarks).   
+Tendencias Actuales y Brechas: Hacia dónde va la investigación actual (hibridación, Large Neighborhood Search, algoritmos evolutivos) y cuáles son las limitaciones de los métodos existentes.  

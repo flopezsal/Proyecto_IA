@@ -1,0 +1,23 @@
+@book{taocv3,
+  author    = {Knuth, Donald E.},
+  title     = {The Art of Computer Programming, Volume 3: Sorting and Searching},
+  edition   = {2},
+  year      = {1998},
+  publisher = {Addison-Wesley},
+  address   = {USA}
+}
+
+@book{algorithms_erickson,
+  author    = {Erickson, Jeff},
+  title     = {Algorithms},
+  year      = {2019},
+  isbn      = {978-1-792-64483-2}
+}
+
+@misc{ejemplo_web,
+  author       = {Autor o Sitio},
+  title        = {Título de la página},
+  year         = {2024},
+  howpublished = {\url{https://example.com}},
+  note         = {Consultado el DD/MM/AAAA}
+}

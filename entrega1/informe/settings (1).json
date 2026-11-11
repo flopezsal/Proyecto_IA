@@ -1,0 +1,91 @@
+% ============================================================
+%  PREÁMBULO  (paquetes y configuración; normalmente no se toca)
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage[backend=biber,style=numeric,sorting=nyt]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{amsmath, amsfonts, mathrsfs}
+\usepackage{siunitx}
+\usepackage{centernot}
+\usepackage[shortlabels]{enumitem}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{booktabs}          % tablas bonitas (\toprule, \midrule, \bottomrule)
+\usepackage{multicol}
+\usepackage{datetime}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage[vlined,ruled,linesnumbered]{algorithm2e}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{url}
+\usepackage{csquotes}
+\usepackage{fourier}           % tipografía
+\usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{mdframed}
+\usepackage{epigraph}
+\usepackage{hyperref}
+\usepackage[nameinlink]{cleveref}
+
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{shapes.arrows, shapes.geometric, arrows.meta, angles, quotes, positioning, arrows, fit, calc}
+\tikzset{>=latex}
+
+% Carpeta donde buscar imágenes: \includegraphics{mi_grafico.png}
+\graphicspath{{figures/}}
+
+% --- algorithm2e ---
+\setlength\algomargin{1em}
+\SetFuncSty{sc}
+\SetCommentSty{em}
+
+% --- cleveref ---
+\Crefname{figure}{Fig.}{Figs.}
+\Crefname{table}{Tabla}{Tablas}
+\Crefname{section}{Sec.}{Secs.}
+\Crefname{subsection}{Subsec.}{Subsecs.}
+\Crefname{subsubsection}{Subsubsec.}{Subsubsecs.}
+\Crefname{equation}{Ec.}{Ecs.}
+\Crefname{algocf}{Alg.}{Algs.}
+\newcommand\crefrangeconjunction{--}
+
+% --- colores y enlaces ---
+\definecolor{algoco}{rgb}{0,0,1}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=algoco,
+  citecolor=blue,
+  urlcolor=blue,
+}
+
+% --- listados de código ---
+\lstset{
+  extendedchars=true,
+  inputencoding=utf8/latin1,
+  basicstyle=\footnotesize\ttfamily\color{black},
+  commentstyle=\slshape\color{gray},
+  keywordstyle=\color{red!80!magenta},
+  stringstyle=\color{cyan!80!black},
+  numbers=none,
+  showspaces=false,
+  showstringspaces=false,
+  tabsize=2,
+  literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1,
+  frame=single,
+  float, floatplacement=ht, captionpos=b,
+  xleftmargin=2em, xrightmargin=2em,
+}
+
+% --- atajos ---
+\newcommand{\ub}[1]{\underbrace{#1}}
+\newcommand{\tcm}{\textcolor{blue}}
+\newcommand{\tca}{\textcolor{algoco}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\bigO}[1]{\mathcal{O}\!\left(#1\right)}
+
+\setlength\epigraphwidth{.7\textwidth}

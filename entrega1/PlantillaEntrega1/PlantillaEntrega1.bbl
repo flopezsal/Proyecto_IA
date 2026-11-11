@@ -1,0 +1,43 @@
+\begin{thebibliography}{1}
+
+\bibitem{bartolini2020two}
+Eduardo Bartolini and Michael Schneider.
+\newblock A two-commodity flow formulation for the capacitated
+  truck-and-trailer routing problem.
+\newblock {\em Discrete Applied Mathematics}, 275:3--18, 2020.
+
+\bibitem{chao2002tabu}
+I-Ming Chao.
+\newblock A tabu search method for the truck and trailer routing problem.
+\newblock {\em Computers and Operations Research}, 29(1):33--51, 2002.
+
+\bibitem{derigs2013model}
+Ulrich Derigs, Markus Pullmann, and Ulrich Vogel.
+\newblock Truck and trailer routing--problems, heuristics and computational
+  experience.
+\newblock {\em Computers and Operations Research}, 40(2):536--546, 2013.
+
+\bibitem{lin2009solving}
+Su-Wi Lin, Vincent~F. Yu, and Shuo-Yan Chou.
+\newblock Solving the truck and trailer routing problem based on a simulated
+  annealing heuristic.
+\newblock {\em Computers and Operations Research}, 36(5):1683--1692, 2009.
+
+\bibitem{parragh2012hybrid}
+Sophie~N. Parragh and Jean-Francois Cordeau.
+\newblock Branch-and-price and adaptive large neighborhood search for the truck
+  and trailer routing problem with time windows.
+\newblock {\em Computers and Operations Research}, 83:28--44, 2017.
+
+\bibitem{perez2023radial}
+Ricardo Perez-Rodriguez and Sergio Frausto-Hernandez.
+\newblock A radial hybrid estimation of distribution algorithm for the truck
+  and trailer routing problem.
+\newblock {\em Mathematical and Computational Applications}, 28(1):27, 2023.
+
+\bibitem{scheuerer2006tabu}
+Stefan Scheuerer.
+\newblock A tabu search heuristic for the truck and trailer routing problem.
+\newblock {\em Computers and Operations Research}, 33(4):894--909, 2006.
+
+\end{thebibliography}
